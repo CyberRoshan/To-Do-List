@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import dingSound from "./assets/iphone_ding.mp3";
@@ -24,7 +24,7 @@ function App() {
       localStorage.setItem("ToDoList", JSON.stringify(copyData));
       setAlltodo(copyData);
       toast("1 Task Added !");
-      console.log(alltodo);
+      // console.log(alltodo);
       settodoName("");
     } else {
       toast.error("Can't add empty task");
@@ -59,28 +59,28 @@ function App() {
       setdoneTask(oldCompletedTask);
     };
 
-    completedTasks();
     // ! Task completed Task End
+      completedTasks();
   };
   return (
     <>
-      <section className="bg-[#212121] w-full ">
+      <section className="bg-[#212121] w-full lg:px-0 px-5">
         <ToastContainer />
         <div className="max-w-[700px] mx-auto w-full min-h-screen">
           <h2 className="text-[#9E78CF]  text-center text-[40px] font-bold pt-10 pb-4">
             To Do List
           </h2>
-          <form onSubmit={addToDo} class="py-6 flex gap-5">
+          <form onSubmit={addToDo} className="py-6 flex gap-5">
             <input
               value={todoName}
               onChange={(event) => settodoName(event.target.value)}
               type="text"
               placeholder="Add a new task"
               id="default-input"
-              class="bg-transparent border-2 text-[#777777] border-[#3E1671]  text-md rounded-2xl block w-full px-5 text-[18px] "
+              className="bg-transparent border-2 text-[#777777] border-[#3E1671]  text-md rounded-2xl block w-full px-5 text-[18px] "
             />
-            <button class="relative mt-2 inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-xl group bg-gradient-to-br from-purple-600 to-[#9E78CF] group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white ">
-              <span class="relative px-4 py-3 transition-all ease-in duration-75 bg-transparent ">
+            <button className="relative mt-2 inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-xl group bg-gradient-to-br from-purple-600 to-[#9E78CF] group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white ">
+              <span className="relative px-4 py-3 transition-all ease-in duration-75 bg-transparent ">
                 <svg
                   className="w-6 h-6"
                   fill="white"
@@ -147,10 +147,10 @@ function App() {
               </div>
             )}
           </div>
-          <div className="p-10 max-w-[700px] space-y-4 mt-14">
+          <div className="py-10 max-w-[700px] space-y-4 mt-14">
             <span className=" p-2 px-4 rounded-lg  bg-[#9851DE] text-white">
-              {" "}
-              Completed &nbsp; {doneTask.length}{" "}
+            
+              Completed &nbsp; {doneTask.length}
             </span>
             {doneTask.length >= 1 ? (
               doneTask.map((item, index) => {
