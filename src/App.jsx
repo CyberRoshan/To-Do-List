@@ -7,6 +7,11 @@ function App() {
   let [todoName, settodoName] = useState("");
   let oldData = JSON.parse(localStorage.getItem("ToDoList")) ?? [];
   let [alltodo, setAlltodo] = useState(oldData);
+
+  // ! Task completed Task Start
+  let [doneTask, setdoneTask] = useState([]);
+  let [allDoneTask, setallDoneTask] = useState("");
+  // ! Task completed Task End
   let addToDo = (event) => {
     // console.log(todoName);
     if (todoName !== "") {
@@ -37,12 +42,25 @@ function App() {
 
   const taskCompleted = (indexNumber) => {
     let allItems = [...alltodo];
-    allItems.splice(indexNumber, 1);
+    const taskCompleted = allItems.splice(indexNumber, 1)[0];
     const audio = new Audio(dingSound);
     audio.play();
     toast.success("1 Task Completed !");
     localStorage.setItem("ToDoList", JSON.stringify(allItems));
     setAlltodo(allItems);
+
+    // ! Task completed Task Start
+    let completedTasks = () => {
+      setallDoneTask([...allDoneTask, taskCompleted]); // [{...},{...},{...},{...}]
+      // console.log(allDoneTask);
+
+      let oldCompletedTask = [...allDoneTask];
+      oldCompletedTask.push(taskCompleted);
+      setdoneTask(oldCompletedTask);
+    };
+
+    completedTasks();
+    // ! Task completed Task End
   };
   return (
     <>
@@ -126,6 +144,31 @@ function App() {
             ) : (
               <div className="text-white text-center text-[24px] pt-20 font-semibold">
                 Add Task to do...
+              </div>
+            )}
+          </div>
+          <div className="p-10 max-w-[700px] space-y-4 mt-14">
+            <span className=" p-2 px-4 rounded-lg  bg-[#9851DE] text-white">
+              {" "}
+              Completed &nbsp; {doneTask.length}{" "}
+            </span>
+            {doneTask.length >= 1 ? (
+              doneTask.map((item, index) => {
+                return (
+                  <div
+                    key={index}
+                    className="bg-[#15101C] border border-[#9E78CF] p-4 flex gap-14 rounded-xl shadow-2xl group"
+                  >
+                    <span className="text-white ">{index + 1}</span>
+                    <p className="text-[#9E78CF] text-[17px] line-through group-hover:text-white">
+                      {item.todoName}
+                    </p>
+                  </div>
+                );
+              })
+            ) : (
+              <div className="text-white text-center text-[24px] pt-20 font-semibold">
+                No Task Completed...
               </div>
             )}
           </div>
